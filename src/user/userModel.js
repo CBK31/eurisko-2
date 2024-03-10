@@ -3,12 +3,12 @@ const schema = mongoose.Schema;
 
 const userSchema = new schema({
 
-    email: String,
-    fistName: String,
-    lastName: String,
-    password: String,
-    isVIP: { type: Boolean, default: false },
-    isAdmin: { type: Boolean, default: false }
+    email: { type: String, required: true, unique: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    password: { type: String, required: true },
+    isVIP: { type: Boolean, default: false, required: true },
+    isAdmin: { type: Boolean, default: false, required: true }
 })
 
 module.exports = mongoose.model('User', userSchema);
