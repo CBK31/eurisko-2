@@ -1,0 +1,28 @@
+const catModel = require('./categoryModel');
+
+
+const findCategByName = async (categName) => {
+
+    return await catModel.findOne({ name: categName });
+
+}
+
+
+const addCategory = async (name, desc) => {
+
+    const categFinder = await findCategByName(name);
+
+    if (categFinder) {
+        // throw error 'category already exist'
+        console.log('category already exist');
+    } else {
+        await new catModel({
+            name: name,
+            description: desc
+        }).save();
+    }
+};
+
+module.exports = {
+    addCategory
+};

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
 const categorySchema = new schema({
-    Name: String,
+    name: String,
     description: String
 
 })
