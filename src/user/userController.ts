@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
-import { findUserByEmail, createUser, logInService, sendOTP } from './userService';
+import { findUserByEmail, createUser, logInService } from './userService';
 import "express-session";
+//import { saveOTP } from "../otp/otpServices";
+import { sendOTP, OTPsaver } from '../otp/otpServices';
 const jwt = require('jsonwebtoken');
 const userError = require('./userError');
 
@@ -26,7 +28,6 @@ const signUp = async (req: Request, res: Response): Promise<void> => {
         //  res.status(error.statusCode).json({ message: error.message });
     }
 }
-
 
 const login = async (req: Request, res: Response): Promise<void> => {
 
@@ -55,15 +56,19 @@ const forgetpassword = async (req: Request, res: Response): Promise<void> => {
         const { email } = req.body;
 
         if (await findUserByEmail(email)) {
-            await sendOTP(email);
+            const myOTP: string = Math.floor(100000 + Math.random() * 900000).toString();
+
+            await OTPsaver(myOTP, email);
+            await sendOTP(email, myOTP);
+
             res.status(200).json({ message: 'OTP sent successfully' });
+
         } else {
             res.status(userError.userNotFound.statusCode).json({ message: userError.userNotFound.message });
         }
 
-
     } catch (error) {
-        res.status(error.statusCode).json({ message: error.message });
+        res.status(400).json({ message: error.message });
     }
 
 

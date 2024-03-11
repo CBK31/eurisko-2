@@ -39,6 +39,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.forgetpassword = exports.login = exports.signUp = void 0;
 var userService_1 = require("./userService");
 require("express-session");
+//import { saveOTP } from "../otp/otpServices";
+var otpServices_1 = require("../otp/otpServices");
 var jwt = require('jsonwebtoken');
 var userError = require('./userError');
 var signUp = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -89,29 +91,33 @@ var login = function (req, res) { return __awaiter(void 0, void 0, void 0, funct
 }); };
 exports.login = login;
 var forgetpassword = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var email, error_3;
+    var email, myOTP, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 5, , 6]);
+                _a.trys.push([0, 6, , 7]);
                 email = req.body.email;
                 return [4 /*yield*/, (0, userService_1.findUserByEmail)(email)];
             case 1:
-                if (!_a.sent()) return [3 /*break*/, 3];
-                return [4 /*yield*/, (0, userService_1.sendOTP)(email)];
+                if (!_a.sent()) return [3 /*break*/, 4];
+                myOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                return [4 /*yield*/, (0, otpServices_1.OTPsaver)(myOTP, email)];
             case 2:
                 _a.sent();
-                res.status(200).json({ message: 'OTP sent successfully' });
-                return [3 /*break*/, 4];
+                return [4 /*yield*/, (0, otpServices_1.sendOTP)(email, myOTP)];
             case 3:
+                _a.sent();
+                res.status(200).json({ message: 'OTP sent successfully' });
+                return [3 /*break*/, 5];
+            case 4:
                 res.status(userError.userNotFound.statusCode).json({ message: userError.userNotFound.message });
-                _a.label = 4;
-            case 4: return [3 /*break*/, 6];
-            case 5:
+                _a.label = 5;
+            case 5: return [3 /*break*/, 7];
+            case 6:
                 error_3 = _a.sent();
-                res.status(error_3.statusCode).json({ message: error_3.message });
-                return [3 /*break*/, 6];
-            case 6: return [2 /*return*/];
+                res.status(400).json({ message: error_3.message });
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
         }
     });
 }); };

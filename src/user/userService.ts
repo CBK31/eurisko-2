@@ -21,7 +21,6 @@ const createUser = async (email: String, firstName: String, lastName: String, pa
 
         const error: any = new Error(errorMessages.userExist.message);
         error.statusCode = errorMessages.userExist.statusCode;
-
         throw error;
 
     } else {
@@ -64,10 +63,36 @@ const logInService = async (email: String, password: String) => {
 
 }
 
-const sendOTP = async (email: String) => {
-    console.log('SENDING AN OTP ');
+// const sendOTP = async (email: String, myOTP: string) => {
 
-}
+//     const data = new URLSearchParams({
+//         'apikey': '4D248F86759751CE0D227B29BA732E077E0978E80184E9385E83650C93E8AAC51987988B56062CCED504B757AEBB9185',
+//         'subject': 'your OTP code',
+//         'from': 'charbelak311@gmail.com',
+//         'to': email as string,
+//         'bodyHtml': `your OTP code is :  ${myOTP}`,
+//         'isTransactional': 'true'
+//     });
+
+//     return await axios.post('https://api.elasticemail.com/v2/email/send', data);
+
+// }
+
+// const OTPsaver = async (myOTP: string, email: string) => {
+
+//     let userFinder = await findUserByEmail(email);
 
 
-export { createUser, logInService, findUserByEmail, sendOTP };
+//     if (userFinder) {
+//         saveOTP(myOTP, userFinder._id);
+//     } else {
+//         const error: any = new Error(errorMessages.userNotFound.message);
+//         error.statusCode = errorMessages.userNotFound.statusCode;
+//         throw error;
+//     }
+
+
+
+// }
+
+export { createUser, logInService, findUserByEmail };

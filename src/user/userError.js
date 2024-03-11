@@ -14,6 +14,11 @@ module.exports = {
     incorrectPass: {
         message: 'incorrect password ',
         statusCode: 400
+    },
+    sendingOTP: {
+        message: 'An error occured while sending OTP',
+        statusCode: 400
+
     }
 
 
