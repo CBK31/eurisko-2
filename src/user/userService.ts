@@ -1,5 +1,5 @@
 const errorMessages = require('./userError');
-
+const bcrypt = require('bcryptjs');
 const userModel = require('./userModel');
 
 
@@ -10,6 +10,8 @@ const findUserByEmail = async (email: String) => {
 
 
 const createUser = async (email: String, firstName: String, lastName: String, password: String, isVIP: Boolean, isAdmin: Boolean) => {
+
+    let hashedpass = await bcrypt.hash(password, 12);
 
     let userF = await findUserByEmail(email);
 
@@ -25,7 +27,7 @@ const createUser = async (email: String, firstName: String, lastName: String, pa
             email: email,
             firstName: firstName,
             lastName: lastName,
-            password: password,
+            password: hashedpass,
             isVIP: isVIP,
             isAdmin: isAdmin
         }).save();

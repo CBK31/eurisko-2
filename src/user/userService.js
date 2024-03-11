@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = void 0;
 var errorMessages = require('./userError');
+var bcrypt = require('bcryptjs');
 var userModel = require('./userModel');
 var findUserByEmail = function (email) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
@@ -48,28 +49,31 @@ var findUserByEmail = function (email) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 var createUser = function (email, firstName, lastName, password, isVIP, isAdmin) { return __awaiter(void 0, void 0, void 0, function () {
-    var userF, error;
+    var hashedpass, userF, error;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, findUserByEmail(email)];
+            case 0: return [4 /*yield*/, bcrypt.hash(password, 12)];
             case 1:
+                hashedpass = _a.sent();
+                return [4 /*yield*/, findUserByEmail(email)];
+            case 2:
                 userF = _a.sent();
-                if (!userF) return [3 /*break*/, 2];
+                if (!userF) return [3 /*break*/, 3];
                 error = new Error(errorMessages.userExist.message);
                 error.statusCode = errorMessages.userExist.statusCode;
                 throw error;
-            case 2: return [4 /*yield*/, new userModel({
+            case 3: return [4 /*yield*/, new userModel({
                     email: email,
                     firstName: firstName,
                     lastName: lastName,
-                    password: password,
+                    password: hashedpass,
                     isVIP: isVIP,
                     isAdmin: isAdmin
                 }).save()];
-            case 3:
+            case 4:
                 _a.sent();
-                _a.label = 4;
-            case 4: return [2 /*return*/];
+                _a.label = 5;
+            case 5: return [2 /*return*/];
         }
     });
 }); };
