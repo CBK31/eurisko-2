@@ -1,6 +1,5 @@
 const express = require('express');
 const myRoutes = express.Router();
-
 const userController = require('./userController');
 
 

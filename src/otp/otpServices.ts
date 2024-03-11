@@ -72,4 +72,4 @@ const OTPsaver = async (myOTP: string, email: string) => {
 
 
 
-export { sendOTP, OTPsaver };
+export { sendOTP, OTPsaver, otpFinderByUserId };

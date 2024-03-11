@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OTPsaver = exports.sendOTP = void 0;
+exports.otpFinderByUserId = exports.OTPsaver = exports.sendOTP = void 0;
 var otpError = require('./otpError');
 var otpModel = require('./otpModel');
 var axios = require('axios');
@@ -49,6 +49,7 @@ var otpFinderByUserId = function (userId) { return __awaiter(void 0, void 0, voi
         }
     });
 }); };
+exports.otpFinderByUserId = otpFinderByUserId;
 var saveOTP = function (myOTP, userId) { return __awaiter(void 0, void 0, void 0, function () {
     var currentTime;
     return __generator(this, function (_a) {
