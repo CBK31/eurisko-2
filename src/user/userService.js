@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logInService = exports.createUser = void 0;
+exports.sendOTP = exports.findUserByEmail = exports.logInService = exports.createUser = void 0;
 var errorMessages = require('./userError');
 var bcrypt = require('bcryptjs');
 var userModel = require('./userModel');
@@ -51,6 +51,7 @@ var findUserByEmail = function (email) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
+exports.findUserByEmail = findUserByEmail;
 var createUser = function (email, firstName, lastName, password, isVIP, isAdmin) { return __awaiter(void 0, void 0, void 0, function () {
     var hashedpass, userF, error;
     return __generator(this, function (_a) {
@@ -110,3 +111,10 @@ var logInService = function (email, password) { return __awaiter(void 0, void 0,
     });
 }); };
 exports.logInService = logInService;
+var sendOTP = function (email) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        console.log('SENDING AN OTP ');
+        return [2 /*return*/];
+    });
+}); };
+exports.sendOTP = sendOTP;

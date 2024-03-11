@@ -4,7 +4,6 @@ const userModel = require('./userModel');
 
 
 
-
 const findUserByEmail = async (email: String) => {
 
     const aUser = await userModel.findOne({ email: email });
@@ -65,7 +64,10 @@ const logInService = async (email: String, password: String) => {
 
 }
 
+const sendOTP = async (email: String) => {
+    console.log('SENDING AN OTP ');
+
+}
 
 
-
-export { createUser, logInService };
+export { createUser, logInService, findUserByEmail, sendOTP };

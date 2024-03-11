@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
-import { createUser, logInService } from './userService';
+import { findUserByEmail, createUser, logInService, sendOTP } from './userService';
 import "express-session";
 const jwt = require('jsonwebtoken');
+const userError = require('./userError');
+
+
 declare module "express-session" {
     interface Session {
         isLoggedIn: boolean;
@@ -22,7 +25,7 @@ const signUp = async (req: Request, res: Response): Promise<void> => {
         res.status(400).json({ message: error.message });
         //  res.status(error.statusCode).json({ message: error.message });
     }
-};
+}
 
 
 const login = async (req: Request, res: Response): Promise<void> => {
@@ -45,5 +48,27 @@ const login = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
+const forgetpassword = async (req: Request, res: Response): Promise<void> => {
 
-export { signUp, login };
+    try {
+
+        const { email } = req.body;
+
+        if (await findUserByEmail(email)) {
+            await sendOTP(email);
+            res.status(200).json({ message: 'OTP sent successfully' });
+        } else {
+            res.status(userError.userNotFound.statusCode).json({ message: userError.userNotFound.message });
+        }
+
+
+    } catch (error) {
+        res.status(error.statusCode).json({ message: error.message });
+    }
+
+
+}
+
+
+
+export { signUp, login, forgetpassword };
