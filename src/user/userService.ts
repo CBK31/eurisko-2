@@ -3,9 +3,12 @@ const bcrypt = require('bcryptjs');
 const userModel = require('./userModel');
 
 
+
+
 const findUserByEmail = async (email: String) => {
 
-    return await userModel.findOne({ email: email });
+    const aUser = await userModel.findOne({ email: email });
+    return aUser;
 }
 
 
@@ -34,9 +37,35 @@ const createUser = async (email: String, firstName: String, lastName: String, pa
     }
 }
 
+const logInService = async (email: String, password: String) => {
+
+    let userFinder = await findUserByEmail(email);
+
+    if (userFinder) {
+
+        let passChecker = await bcrypt.compare(password, userFinder.password);
+
+        if (email == userFinder.email && passChecker) {
+
+            return userFinder;
+
+        } else {
+            const error: any = new Error(errorMessages.incorrectPass.message);
+            error.statusCode = errorMessages.incorrectPass.statusCode;
+            throw error;
+        }
+
+    } else {
+        const error: any = new Error(errorMessages.userNotFound.message);
+        error.statusCode = errorMessages.userNotFound.statusCode;
+        throw error;
+    }
+
+
+
+}
 
 
 
 
-
-export { createUser };
+export { createUser, logInService };

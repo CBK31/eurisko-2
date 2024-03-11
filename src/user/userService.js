@@ -36,15 +36,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = void 0;
+exports.logInService = exports.createUser = void 0;
 var errorMessages = require('./userError');
 var bcrypt = require('bcryptjs');
 var userModel = require('./userModel');
 var findUserByEmail = function (email) { return __awaiter(void 0, void 0, void 0, function () {
+    var aUser;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, userModel.findOne({ email: email })];
-            case 1: return [2 /*return*/, _a.sent()];
+            case 1:
+                aUser = _a.sent();
+                return [2 /*return*/, aUser];
         }
     });
 }); };
@@ -78,3 +81,32 @@ var createUser = function (email, firstName, lastName, password, isVIP, isAdmin)
     });
 }); };
 exports.createUser = createUser;
+var logInService = function (email, password) { return __awaiter(void 0, void 0, void 0, function () {
+    var userFinder, passChecker, error, error;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, findUserByEmail(email)];
+            case 1:
+                userFinder = _a.sent();
+                if (!userFinder) return [3 /*break*/, 3];
+                return [4 /*yield*/, bcrypt.compare(password, userFinder.password)];
+            case 2:
+                passChecker = _a.sent();
+                if (email == userFinder.email && passChecker) {
+                    return [2 /*return*/, userFinder];
+                }
+                else {
+                    error = new Error(errorMessages.incorrectPass.message);
+                    error.statusCode = errorMessages.incorrectPass.statusCode;
+                    throw error;
+                }
+                return [3 /*break*/, 4];
+            case 3:
+                error = new Error(errorMessages.userNotFound.message);
+                error.statusCode = errorMessages.userNotFound.statusCode;
+                throw error;
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.logInService = logInService;

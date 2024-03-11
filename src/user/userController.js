@@ -36,8 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signUp = void 0;
+exports.login = exports.signUp = void 0;
 var userService_1 = require("./userService");
+require("express-session");
+var jwt = require('jsonwebtoken');
 var signUp = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, email, firstName, lastName, password, isVIP, isAdmin, error_1;
     return __generator(this, function (_b) {
@@ -59,3 +61,29 @@ var signUp = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 exports.signUp = signUp;
+var login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, email, password, userFinder, token, error_2;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, email = _a.email, password = _a.password;
+                return [4 /*yield*/, (0, userService_1.logInService)(email, password)];
+            case 1:
+                userFinder = _b.sent();
+                if (userFinder) {
+                    req.session.isLoggedIn = true;
+                    req.session.userId = userFinder._id;
+                    token = jwt.sign({ email: email }, 'a_secret_key');
+                    res.status(200).json({ token: token });
+                }
+                return [3 /*break*/, 3];
+            case 2:
+                error_2 = _b.sent();
+                res.status(error_2.statusCode).json({ message: error_2.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.login = login;
