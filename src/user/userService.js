@@ -36,10 +36,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePassword = exports.findUserByEmail = exports.logInService = exports.createUser = void 0;
+exports.findUserFromToken = exports.updatePassword = exports.findUserByEmail = exports.logInService = exports.createUser = void 0;
 var errorMessages = require('./userError');
 var bcrypt = require('bcryptjs');
 var userModel = require('./userModel');
+var jwt = require('jsonwebtoken');
 var updatePassword = function (userid, newPassword) { return __awaiter(void 0, void 0, void 0, function () {
     var hashedpass;
     return __generator(this, function (_a) {
@@ -126,3 +127,18 @@ var logInService = function (email, password) { return __awaiter(void 0, void 0,
     });
 }); };
 exports.logInService = logInService;
+var findUserFromToken = function (req) { return __awaiter(void 0, void 0, void 0, function () {
+    var authHeader, token, decoded, userEmail;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                authHeader = req.headers['authorization'];
+                token = authHeader && authHeader.split(' ')[1];
+                decoded = jwt.verify(token, 'a_secret_key');
+                userEmail = decoded.email;
+                return [4 /*yield*/, findUserByEmail(userEmail)];
+            case 1: return [2 /*return*/, _a.sent()];
+        }
+    });
+}); };
+exports.findUserFromToken = findUserFromToken;

@@ -36,12 +36,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteComplaint = exports.getComplaintByUserIdAndCompId = exports.getComplaintByUserId = exports.findUserFromToken = exports.createComplaint = void 0;
+exports.deleteComplaint = exports.getComplaintByUserIdAndCompId = exports.getComplaintByUserId = exports.createComplaint = void 0;
 var jwt = require('jsonwebtoken');
 var complaintModel = require('./complaintModel');
 var complaintError = require('./complaintError');
 var categoryService_1 = require("../category/categoryService");
-var userService_1 = require("../user/userService");
 var complaintFinderBytitle = function (cTitle) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -50,21 +49,13 @@ var complaintFinderBytitle = function (cTitle) { return __awaiter(void 0, void 0
         }
     });
 }); };
-var findUserFromToken = function (req) { return __awaiter(void 0, void 0, void 0, function () {
-    var authHeader, token, decoded, userEmail;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                authHeader = req.headers['authorization'];
-                token = authHeader && authHeader.split(' ')[1];
-                decoded = jwt.verify(token, 'a_secret_key');
-                userEmail = decoded.email;
-                return [4 /*yield*/, (0, userService_1.findUserByEmail)(userEmail)];
-            case 1: return [2 /*return*/, _a.sent()];
-        }
-    });
-}); };
-exports.findUserFromToken = findUserFromToken;
+// const findUserFromToken = async (req: Request) => {
+//     const authHeader = req.headers['authorization'];
+//     const token = authHeader && authHeader.split(' ')[1];
+//     const decoded = jwt.verify(token, 'a_secret_key');
+//     const userEmail = decoded.email;
+//     return await findUserByEmail(userEmail);
+// }
 var categoryChecker = function (categories) { return __awaiter(void 0, void 0, void 0, function () {
     var _i, categories_1, element;
     return __generator(this, function (_a) {

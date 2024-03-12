@@ -9,16 +9,16 @@ const complaintFinderBytitle = async (cTitle) => {
     return await complaintModel.findOne({ title: cTitle });
 }
 
-const findUserFromToken = async (req: Request) => {
+// const findUserFromToken = async (req: Request) => {
 
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, 'a_secret_key');
-    const userEmail = decoded.email;
+//     const authHeader = req.headers['authorization'];
+//     const token = authHeader && authHeader.split(' ')[1];
+//     const decoded = jwt.verify(token, 'a_secret_key');
+//     const userEmail = decoded.email;
 
-    return await findUserByEmail(userEmail);
+//     return await findUserByEmail(userEmail);
 
-}
+// }
 
 const categoryChecker = async (categories: Array<string>) => {
     for (let element of categories) {
@@ -79,4 +79,4 @@ const deleteComplaint = async (userId: string, complaintId: string) => {
 
 
 
-export { createComplaint, findUserFromToken, getComplaintByUserId, getComplaintByUserIdAndCompId, deleteComplaint };
+export { createComplaint, getComplaintByUserId, getComplaintByUserIdAndCompId, deleteComplaint };

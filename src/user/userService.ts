@@ -1,6 +1,8 @@
 const errorMessages = require('./userError');
+import { Request, Response } from 'express';
 const bcrypt = require('bcryptjs');
 const userModel = require('./userModel');
+const jwt = require('jsonwebtoken');
 
 const updatePassword = async (userid, newPassword) => {
 
@@ -72,6 +74,16 @@ const logInService = async (email: String, password: String) => {
 
 }
 
+const findUserFromToken = async (req: Request) => {
+
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, 'a_secret_key');
+    const userEmail = decoded.email;
+
+    return await findUserByEmail(userEmail);
+
+}
 
 
-export { createUser, logInService, findUserByEmail, updatePassword };
+export { createUser, logInService, findUserByEmail, updatePassword, findUserFromToken };

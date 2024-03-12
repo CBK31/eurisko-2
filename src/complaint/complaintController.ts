@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import "express-session";
 const jwt = require('jsonwebtoken');
 const complaintError = require('./complaintError');
-import { createComplaint, findUserFromToken, getComplaintByUserId, getComplaintByUserIdAndCompId, deleteComplaint } from './complaintService';
-
+import { createComplaint, getComplaintByUserId, getComplaintByUserIdAndCompId, deleteComplaint } from './complaintService';
+import { findUserFromToken } from '../user/userService';
 
 
 const submit = async (req: Request, res: Response): Promise<void> => {
@@ -39,6 +39,7 @@ const getComplaints = async (req: Request, res: Response): Promise<void> => {
     }
 
 }
+
 const getAComplaint = async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -74,12 +75,8 @@ const deleteMyComplaint = async (req: Request, res: Response): Promise<void> => 
         }
 
     } catch (error) {
-
-
+        res.status(400).json({ message: error.message });
     }
-
-
-
 }
 
 

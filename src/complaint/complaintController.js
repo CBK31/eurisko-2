@@ -41,6 +41,7 @@ require("express-session");
 var jwt = require('jsonwebtoken');
 var complaintError = require('./complaintError');
 var complaintService_1 = require("./complaintService");
+var userService_1 = require("../user/userService");
 var submit = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, title, body, categories, userFinder, error_1;
     return __generator(this, function (_b) {
@@ -48,7 +49,7 @@ var submit = function (req, res) { return __awaiter(void 0, void 0, void 0, func
             case 0:
                 _b.trys.push([0, 3, , 4]);
                 _a = req.body, title = _a.title, body = _a.body, categories = _a.categories;
-                return [4 /*yield*/, (0, complaintService_1.findUserFromToken)(req)];
+                return [4 /*yield*/, (0, userService_1.findUserFromToken)(req)];
             case 1:
                 userFinder = _b.sent();
                 return [4 /*yield*/, (0, complaintService_1.createComplaint)(userFinder._id, title, body, categories)];
@@ -73,7 +74,7 @@ var getComplaints = function (req, res) { return __awaiter(void 0, void 0, void 
                 _a.trys.push([0, 3, , 4]);
                 requestedPage = parseInt(req.query.page, 10);
                 itempPerPage = 3;
-                return [4 /*yield*/, (0, complaintService_1.findUserFromToken)(req)];
+                return [4 /*yield*/, (0, userService_1.findUserFromToken)(req)];
             case 1:
                 userFinder = _a.sent();
                 return [4 /*yield*/, (0, complaintService_1.getComplaintByUserId)(userFinder._id, requestedPage, itempPerPage)];
@@ -96,7 +97,7 @@ var getAComplaint = function (req, res) { return __awaiter(void 0, void 0, void 
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, (0, complaintService_1.findUserFromToken)(req)];
+                return [4 /*yield*/, (0, userService_1.findUserFromToken)(req)];
             case 1:
                 userFinder = _a.sent();
                 complaintId = req.body.complaintId;
@@ -125,7 +126,7 @@ var deleteMyComplaint = function (req, res) { return __awaiter(void 0, void 0, v
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, (0, complaintService_1.findUserFromToken)(req)];
+                return [4 /*yield*/, (0, userService_1.findUserFromToken)(req)];
             case 1:
                 userFinder = _a.sent();
                 complaintId = req.body.complaintId;
@@ -141,6 +142,7 @@ var deleteMyComplaint = function (req, res) { return __awaiter(void 0, void 0, v
                 return [3 /*break*/, 4];
             case 3:
                 error_4 = _a.sent();
+                res.status(400).json({ message: error_4.message });
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
