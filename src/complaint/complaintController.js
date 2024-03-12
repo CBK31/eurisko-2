@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getcomplains = exports.submit = void 0;
+exports.getAComplaint = exports.getComplaints = exports.submit = void 0;
 require("express-session");
 var jwt = require('jsonwebtoken');
 var complaintError = require('./complaintError');
@@ -65,7 +65,7 @@ var submit = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 exports.submit = submit;
-var getcomplains = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var getComplaints = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var requestedPage, itempPerPage, userFinder, complaintFinder, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -89,4 +89,33 @@ var getcomplains = function (req, res) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
-exports.getcomplains = getcomplains;
+exports.getComplaints = getComplaints;
+var getAComplaint = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var userFinder, complaintId, complaintFinder, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, (0, complaintService_1.findUserFromToken)(req)];
+            case 1:
+                userFinder = _a.sent();
+                complaintId = req.body.complaintId;
+                return [4 /*yield*/, (0, complaintService_1.getComplaintByUserIdAndCompId)(userFinder._id, complaintId)];
+            case 2:
+                complaintFinder = _a.sent();
+                if (complaintFinder) {
+                    res.status(200).json({ complaintFinder: complaintFinder });
+                }
+                else {
+                    res.status(400).json({ message: 'complaint not found ' });
+                }
+                return [3 /*break*/, 4];
+            case 3:
+                error_3 = _a.sent();
+                res.status(400).json({ message: error_3.message });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getAComplaint = getAComplaint;

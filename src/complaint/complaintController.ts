@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import "express-session";
 const jwt = require('jsonwebtoken');
 const complaintError = require('./complaintError');
-import { createComplaint, findUserFromToken, getComplaintByUserId } from './complaintService';
+import { createComplaint, findUserFromToken, getComplaintByUserId, getComplaintByUserIdAndCompId } from './complaintService';
 
 
 
@@ -22,7 +22,7 @@ const submit = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
-const getcomplains = async (req: Request, res: Response): Promise<void> => {
+const getComplaints = async (req: Request, res: Response): Promise<void> => {
 
     try {
 
@@ -39,6 +39,24 @@ const getcomplains = async (req: Request, res: Response): Promise<void> => {
     }
 
 }
+const getAComplaint = async (req: Request, res: Response): Promise<void> => {
+
+    try {
+        const userFinder = await findUserFromToken(req);
+        const { complaintId } = req.body;
+        const complaintFinder = await getComplaintByUserIdAndCompId(userFinder._id, complaintId);
+
+        if (complaintFinder) {
+            res.status(200).json({ complaintFinder });
+        } else {
+            res.status(400).json({ message: 'complaint not found ' });
+        }
 
 
-export { submit, getcomplains };
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+
+}
+
+export { submit, getComplaints, getAComplaint };
