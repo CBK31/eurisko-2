@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.otpFinderByUserId = exports.OTPsaver = exports.sendOTP = void 0;
+exports.updateIsUsedToTrue = exports.otpFinderByUserId = exports.OTPsaver = exports.sendOTP = void 0;
 var otpError = require('./otpError');
 var otpModel = require('./otpModel');
 var axios = require('axios');
@@ -50,6 +50,17 @@ var otpFinderByUserId = function (userId) { return __awaiter(void 0, void 0, voi
     });
 }); };
 exports.otpFinderByUserId = otpFinderByUserId;
+var updateIsUsedToTrue = function (otpId) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, otpModel.findOneAndUpdate({ _id: otpId }, { $set: { isUsed: true } })];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.updateIsUsedToTrue = updateIsUsedToTrue;
 var saveOTP = function (myOTP, userId) { return __awaiter(void 0, void 0, void 0, function () {
     var currentTime;
     return __generator(this, function (_a) {

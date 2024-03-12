@@ -7,8 +7,12 @@ module.exports = {
         message: "That email does not have an OTP generated for it",
         statusCode: 400
     },
-    incorrectOTP: {
-        message: "incorrect or expired OTP",
+    notMatched: {
+        message: "OTP not matched",
+        statusCode: 400
+    },
+    exriredOrlifeEnded: {
+        message: "life ended or expired OTP",
         statusCode: 400
     }
 

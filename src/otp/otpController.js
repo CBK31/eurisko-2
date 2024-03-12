@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyOTP = void 0;
+exports.resendOTP = exports.verifyOTP = void 0;
 var otpServices_1 = require("../otp/otpServices");
 var otpError = require('./otpError');
 var userService_1 = require("../user/userService");
@@ -46,38 +46,85 @@ var verifyOTP = function (req, res) { return __awaiter(void 0, void 0, void 0, f
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 5, , 6]);
+                _b.trys.push([0, 10, , 11]);
                 _a = req.body, email = _a.email, otp = _a.otp;
                 return [4 /*yield*/, (0, userService_1.findUserByEmail)(email)];
             case 1:
                 userFinder = _b.sent();
-                if (!userFinder) return [3 /*break*/, 3];
+                if (!userFinder) return [3 /*break*/, 8];
                 return [4 /*yield*/, (0, otpServices_1.otpFinderByUserId)(userFinder._id)];
             case 2:
                 otpFinder = _b.sent();
-                if (otpFinder) {
-                    currentTime = new Date();
-                    if (otpFinder.otpCode === otp && otpFinder.expirationTime > currentTime) {
-                        res.status(200).json({ message: 'OTP match' });
-                    }
-                    else {
-                        res.status(otpError.incorrectOTP.statusCode).json({ message: otpError.incorrectOTP.message });
-                    }
-                }
-                else {
-                    res.status(otpError.otpNotFound.statusCode).json({ message: otpError.otpNotFound.message });
-                }
-                return [3 /*break*/, 4];
+                if (!otpFinder) return [3 /*break*/, 6];
+                currentTime = new Date();
+                if (!(otpFinder.otpCode === otp && otpFinder.expirationTime > currentTime && otpFinder.isUsed == false)) return [3 /*break*/, 4];
+                return [4 /*yield*/, (0, otpServices_1.updateIsUsedToTrue)(otpFinder._id)];
             case 3:
+                _b.sent();
+                res.status(200).json({ message: 'OTP match' });
+                return [3 /*break*/, 5];
+            case 4:
+                res.status(otpError.notMatched.statusCode).json({ message: otpError.notMatched.message });
+                _b.label = 5;
+            case 5: return [3 /*break*/, 7];
+            case 6:
+                res.status(otpError.otpNotFound.statusCode).json({ message: otpError.otpNotFound.message });
+                _b.label = 7;
+            case 7: return [3 /*break*/, 9];
+            case 8:
                 res.status(userError.userNotFound.statusCode).json({ message: userError.userNotFound.message });
-                _b.label = 4;
-            case 4: return [3 /*break*/, 6];
-            case 5:
+                _b.label = 9;
+            case 9: return [3 /*break*/, 11];
+            case 10:
                 error_1 = _b.sent();
                 res.status(400).json({ message: error_1.message });
-                return [3 /*break*/, 6];
-            case 6: return [2 /*return*/];
+                return [3 /*break*/, 11];
+            case 11: return [2 /*return*/];
         }
     });
 }); };
 exports.verifyOTP = verifyOTP;
+var resendOTP = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var email, userFinder, otpFinder, currentTime, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 10, , 11]);
+                email = req.body.email;
+                return [4 /*yield*/, (0, userService_1.findUserByEmail)(email)];
+            case 1:
+                userFinder = _a.sent();
+                if (!userFinder) return [3 /*break*/, 8];
+                return [4 /*yield*/, (0, otpServices_1.otpFinderByUserId)(userFinder._id)];
+            case 2:
+                otpFinder = _a.sent();
+                if (!otpFinder) return [3 /*break*/, 6];
+                currentTime = new Date();
+                if (!(otpFinder.life > 0 && otpFinder.expirationTime > currentTime)) return [3 /*break*/, 4];
+                return [4 /*yield*/, (0, otpServices_1.sendOTP)(email, otpFinder.otpCode)];
+            case 3:
+                _a.sent();
+                // decrease the otp life 
+                res.status(200).json({ message: 'OTP sent successfully' });
+                return [3 /*break*/, 5];
+            case 4:
+                res.status(otpError.exriredOrlifeEnded.statusCode).json({ message: otpError.exriredOrlifeEnded.message });
+                _a.label = 5;
+            case 5: return [3 /*break*/, 7];
+            case 6:
+                res.status(otpError.otpNotFound.statusCode).json({ message: otpError.otpNotFound.message });
+                _a.label = 7;
+            case 7: return [3 /*break*/, 9];
+            case 8:
+                res.status(userError.userNotFound.statusCode).json({ message: userError.userNotFound.message });
+                _a.label = 9;
+            case 9: return [3 /*break*/, 11];
+            case 10:
+                error_2 = _a.sent();
+                res.status(400).json({ message: error_2.message });
+                return [3 /*break*/, 11];
+            case 11: return [2 /*return*/];
+        }
+    });
+}); };
+exports.resendOTP = resendOTP;

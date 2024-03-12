@@ -7,6 +7,13 @@ const otpFinderByUserId = async (userId: string) => {
     return await otpModel.findOne({ userId: userId });
 }
 
+const updateIsUsedToTrue = async (otpId) => {
+    await otpModel.findOneAndUpdate(
+        { _id: otpId },
+        { $set: { isUsed: true } }
+    );
+}
+
 
 const saveOTP = async (myOTP: string, userId: string) => {
 
@@ -72,4 +79,4 @@ const OTPsaver = async (myOTP: string, email: string) => {
 
 
 
-export { sendOTP, OTPsaver, otpFinderByUserId };
+export { sendOTP, OTPsaver, otpFinderByUserId, updateIsUsedToTrue };
