@@ -36,25 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteComplaint = exports.getComplaintByUserIdAndCompId = exports.getComplaintByUserId = exports.createComplaint = void 0;
+exports.updateComp = exports.deleteComplaint = exports.getComplaintByUserIdAndCompId = exports.getComplaintByUserId = exports.createComplaint = void 0;
 var jwt = require('jsonwebtoken');
 var complaintModel = require('./complaintModel');
 var complaintError = require('./complaintError');
 var categoryService_1 = require("../category/categoryService");
-var complaintFinderBytitle = function (cTitle) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, complaintModel.findOne({ title: cTitle })];
-            case 1: return [2 /*return*/, _a.sent()];
-        }
-    });
-}); };
-// const findUserFromToken = async (req: Request) => {
-//     const authHeader = req.headers['authorization'];
-//     const token = authHeader && authHeader.split(' ')[1];
-//     const decoded = jwt.verify(token, 'a_secret_key');
-//     const userEmail = decoded.email;
-//     return await findUserByEmail(userEmail);
+// const complaintFinderBytitle = async (cTitle) => {
+//     return await complaintModel.findOne({ title: cTitle });
 // }
 var categoryChecker = function (categories) { return __awaiter(void 0, void 0, void 0, function () {
     var _i, categories_1, element;
@@ -145,3 +133,17 @@ var deleteComplaint = function (userId, complaintId) { return __awaiter(void 0, 
     });
 }); };
 exports.deleteComplaint = deleteComplaint;
+var updateComp = function (complaintId, complaintStatus) { return __awaiter(void 0, void 0, void 0, function () {
+    var result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, complaintModel.findByIdAndUpdate(complaintId, {
+                    status: complaintStatus,
+                })];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, result];
+        }
+    });
+}); };
+exports.updateComp = updateComp;

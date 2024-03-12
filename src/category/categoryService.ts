@@ -34,7 +34,7 @@ const getcategoriesPaginated = async (requestedPage: number, itemsPerPage: numbe
 
 };
 
-const getOneCategoryById = async (categoryId) => {
+const getOneCategoryById = async (categoryId: string) => {
     const categFinder = await catModel.findOne({ _id: categoryId });
     return categFinder;
 };

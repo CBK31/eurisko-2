@@ -5,19 +5,8 @@ const complaintError = require('./complaintError');
 import { findCategByName } from '../category/categoryService';
 import { findUserByEmail } from '../user/userService';
 
-const complaintFinderBytitle = async (cTitle) => {
-    return await complaintModel.findOne({ title: cTitle });
-}
-
-// const findUserFromToken = async (req: Request) => {
-
-//     const authHeader = req.headers['authorization'];
-//     const token = authHeader && authHeader.split(' ')[1];
-//     const decoded = jwt.verify(token, 'a_secret_key');
-//     const userEmail = decoded.email;
-
-//     return await findUserByEmail(userEmail);
-
+// const complaintFinderBytitle = async (cTitle) => {
+//     return await complaintModel.findOne({ title: cTitle });
 // }
 
 const categoryChecker = async (categories: Array<string>) => {
@@ -60,23 +49,23 @@ const getComplaintByUserId = async (userId: string, pageNum: number, itemsPerPag
 }
 
 const getComplaintByUserIdAndCompId = async (userId: string, complaintid: string) => {
-
     return await complaintModel.findOne({ _id: complaintid, userId: userId })
-
 }
 
 const deleteComplaint = async (userId: string, complaintId: string) => {
-
     const result = await complaintModel.deleteOne({
         _id: complaintId,
         userId: userId
     });
-
     return result.deletedCount > 0;
+}
 
+const updateComp = async (complaintId: string, complaintStatus: string) => {
+    const result = await complaintModel.findByIdAndUpdate(complaintId, {
+        status: complaintStatus,
+    });
+    return result;
 }
 
 
-
-
-export { createComplaint, getComplaintByUserId, getComplaintByUserIdAndCompId, deleteComplaint };
+export { createComplaint, getComplaintByUserId, getComplaintByUserIdAndCompId, deleteComplaint, updateComp };

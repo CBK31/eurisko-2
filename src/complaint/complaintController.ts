@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import "express-session";
-const jwt = require('jsonwebtoken');
-const complaintError = require('./complaintError');
-import { createComplaint, getComplaintByUserId, getComplaintByUserIdAndCompId, deleteComplaint } from './complaintService';
+// const jwt = require('jsonwebtoken');
+// const complaintError = require('./complaintError');
+import { createComplaint, getComplaintByUserId, getComplaintByUserIdAndCompId, deleteComplaint, updateComp } from './complaintService';
 import { findUserFromToken } from '../user/userService';
 
 
@@ -79,6 +79,20 @@ const deleteMyComplaint = async (req: Request, res: Response): Promise<void> => 
     }
 }
 
+const updateComplaint = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { complaintId, complaintStatus } = req.body;
+        const finder = await updateComp(complaintId, complaintStatus);
 
+        if (finder) {
+            res.status(200).json({ message: 'complaint updated successfully' });
+        } else {
+            res.status(400).json({ message: 'complaint not found' });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 
-export { submit, getComplaints, getAComplaint, deleteMyComplaint };
+}
+
+export { submit, getComplaints, getAComplaint, deleteMyComplaint, updateComplaint };

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { addCategory, getcategoriesPaginated, getOneCategoryById, updateCategory, deleteCategoryById } from './categoryService';
-import { findUserFromToken } from '../user/userService';
+// import { findUserFromToken } from '../user/userService';
 
 const addCateg = async (req: Request, res: Response): Promise<void> => {
     try {

@@ -36,10 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMyComplaint = exports.getAComplaint = exports.getComplaints = exports.submit = void 0;
+exports.updateComplaint = exports.deleteMyComplaint = exports.getAComplaint = exports.getComplaints = exports.submit = void 0;
 require("express-session");
-var jwt = require('jsonwebtoken');
-var complaintError = require('./complaintError');
+// const jwt = require('jsonwebtoken');
+// const complaintError = require('./complaintError');
 var complaintService_1 = require("./complaintService");
 var userService_1 = require("../user/userService");
 var submit = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -149,3 +149,29 @@ var deleteMyComplaint = function (req, res) { return __awaiter(void 0, void 0, v
     });
 }); };
 exports.deleteMyComplaint = deleteMyComplaint;
+var updateComplaint = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, complaintId, complaintStatus, finder, error_5;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, complaintId = _a.complaintId, complaintStatus = _a.complaintStatus;
+                return [4 /*yield*/, (0, complaintService_1.updateComp)(complaintId, complaintStatus)];
+            case 1:
+                finder = _b.sent();
+                if (finder) {
+                    res.status(200).json({ message: 'complaint updated successfully' });
+                }
+                else {
+                    res.status(400).json({ message: 'complaint not found' });
+                }
+                return [3 /*break*/, 3];
+            case 2:
+                error_5 = _b.sent();
+                res.status(400).json({ message: error_5.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.updateComplaint = updateComplaint;

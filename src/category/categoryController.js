@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteCateg = exports.updateCateg = exports.getOnecategory = exports.getcategories = exports.addCateg = void 0;
 var categoryService_1 = require("./categoryService");
+// import { findUserFromToken } from '../user/userService';
 var addCateg = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, categoryName, categoryDescription, error_1;
     return __generator(this, function (_b) {
