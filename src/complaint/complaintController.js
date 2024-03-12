@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.submit = void 0;
+exports.getcomplains = exports.submit = void 0;
 require("express-session");
 var jwt = require('jsonwebtoken');
 var complaintError = require('./complaintError');
@@ -65,3 +65,28 @@ var submit = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 exports.submit = submit;
+var getcomplains = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var requestedPage, itempPerPage, userFinder, complaintFinder, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                requestedPage = parseInt(req.query.page, 10);
+                itempPerPage = 3;
+                return [4 /*yield*/, (0, complaintService_1.findUserFromToken)(req)];
+            case 1:
+                userFinder = _a.sent();
+                return [4 /*yield*/, (0, complaintService_1.getComplaintByUserId)(userFinder._id, requestedPage, itempPerPage)];
+            case 2:
+                complaintFinder = _a.sent();
+                res.status(200).json({ complaintFinder: complaintFinder });
+                return [3 /*break*/, 4];
+            case 3:
+                error_2 = _a.sent();
+                res.status(400).json({ message: error_2.message });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getcomplains = getcomplains;

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findUserFromToken = exports.createComplaint = void 0;
+exports.getComplaintByUserId = exports.findUserFromToken = exports.createComplaint = void 0;
 var jwt = require('jsonwebtoken');
 var complaintModel = require('./complaintModel');
 var complaintError = require('./complaintError');
@@ -121,3 +121,12 @@ var createComplaint = function (userId, title, body, categories) { return __awai
     });
 }); };
 exports.createComplaint = createComplaint;
+var getComplaintByUserId = function (userId, pageNum, itemsPerPage) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, complaintModel.find({ userId: userId }).skip((pageNum - 1) * itemsPerPage).limit(itemsPerPage)];
+            case 1: return [2 /*return*/, _a.sent()];
+        }
+    });
+}); };
+exports.getComplaintByUserId = getComplaintByUserId;

@@ -55,4 +55,9 @@ const createComplaint = async (userId: string, title: string, body: string, cate
     }
 }
 
-export { createComplaint, findUserFromToken };
+const getComplaintByUserId = async (userId, pageNum, itemsPerPage) => {
+    return await complaintModel.find({ userId: userId }).skip((pageNum - 1) * itemsPerPage).limit(itemsPerPage);
+}
+
+
+export { createComplaint, findUserFromToken, getComplaintByUserId };
