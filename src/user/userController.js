@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.forgetpassword = exports.login = exports.signUp = void 0;
+exports.resetpassword = exports.forgetpassword = exports.login = exports.signUp = void 0;
 var userService_1 = require("./userService");
 require("express-session");
 //import { saveOTP } from "../otp/otpServices";
@@ -122,3 +122,32 @@ var forgetpassword = function (req, res) { return __awaiter(void 0, void 0, void
     });
 }); };
 exports.forgetpassword = forgetpassword;
+var resetpassword = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, email, newPassword, userFinder, error_4;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 5, , 6]);
+                _a = req.body, email = _a.email, newPassword = _a.newPassword;
+                return [4 /*yield*/, (0, userService_1.findUserByEmail)(email)];
+            case 1:
+                userFinder = _b.sent();
+                if (!userFinder) return [3 /*break*/, 3];
+                return [4 /*yield*/, (0, userService_1.updatePassword)(userFinder._id, newPassword)];
+            case 2:
+                _b.sent();
+                res.status(200).json({ message: 'password update successfully' });
+                return [3 /*break*/, 4];
+            case 3:
+                res.status(userError.userNotFound.statusCode).json({ message: userError.userNotFound.message });
+                _b.label = 4;
+            case 4: return [3 /*break*/, 6];
+            case 5:
+                error_4 = _b.sent();
+                res.status(400).json({ message: error_4.message });
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
+        }
+    });
+}); };
+exports.resetpassword = resetpassword;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { findUserByEmail, createUser, logInService } from './userService';
+import { findUserByEmail, createUser, logInService, updatePassword } from './userService';
 import "express-session";
 //import { saveOTP } from "../otp/otpServices";
 import { sendOTP, OTPsaver } from '../otp/otpServices';
@@ -74,6 +74,24 @@ const forgetpassword = async (req: Request, res: Response): Promise<void> => {
 
 }
 
+const resetpassword = async (req: Request, res: Response): Promise<void> => {
+
+    try {
+        const { email, newPassword } = req.body;
+        const userFinder = await findUserByEmail(email)
+        if (userFinder) {
+            await updatePassword(userFinder._id, newPassword);
+            res.status(200).json({ message: 'password update successfully' });
+        } else {
+            res.status(userError.userNotFound.statusCode).json({ message: userError.userNotFound.message });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 
 
-export { signUp, login, forgetpassword };
+
+}
+
+
+export { signUp, login, forgetpassword, resetpassword };

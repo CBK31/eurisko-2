@@ -36,10 +36,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findUserByEmail = exports.logInService = exports.createUser = void 0;
+exports.updatePassword = exports.findUserByEmail = exports.logInService = exports.createUser = void 0;
 var errorMessages = require('./userError');
 var bcrypt = require('bcryptjs');
 var userModel = require('./userModel');
+var updatePassword = function (userid, newPassword) { return __awaiter(void 0, void 0, void 0, function () {
+    var hashedpass;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, bcrypt.hash(newPassword, 12)];
+            case 1:
+                hashedpass = _a.sent();
+                return [4 /*yield*/, userModel.findOneAndUpdate({ _id: userid }, { $set: { password: hashedpass } })];
+            case 2:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.updatePassword = updatePassword;
 var findUserByEmail = function (email) { return __awaiter(void 0, void 0, void 0, function () {
     var aUser;
     return __generator(this, function (_a) {

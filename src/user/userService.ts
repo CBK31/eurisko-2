@@ -2,14 +2,23 @@ const errorMessages = require('./userError');
 const bcrypt = require('bcryptjs');
 const userModel = require('./userModel');
 
+const updatePassword = async (userid, newPassword) => {
 
+    let hashedpass = await bcrypt.hash(newPassword, 12);
+
+    await userModel.findOneAndUpdate(
+        { _id: userid },
+        { $set: { password: hashedpass } }
+    );
+
+
+}
 
 const findUserByEmail = async (email: String) => {
 
     const aUser = await userModel.findOne({ email: email });
     return aUser;
 }
-
 
 const createUser = async (email: String, firstName: String, lastName: String, password: String, isVIP: Boolean, isAdmin: Boolean) => {
 
@@ -95,4 +104,4 @@ const logInService = async (email: String, password: String) => {
 
 // }
 
-export { createUser, logInService, findUserByEmail };
+export { createUser, logInService, findUserByEmail, updatePassword };
