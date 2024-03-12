@@ -6,5 +6,9 @@ const categoryController = require('./categoryController');
 
 
 myRoutes.use('/add', verifyToken, userIsAdmin, categoryController.addCateg);
+myRoutes.use('/getcategories', verifyToken, userIsAdmin, categoryController.getcategories);
+
+
+
 
 module.exports = myRoutes;

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { addCategory } from './categoryService';
+import { addCategory, getcategoriesPaginated } from './categoryService';
+import { findUserFromToken } from '../user/userService';
 
 const addCateg = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -13,4 +14,16 @@ const addCateg = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
-export { addCateg };
+const getcategories = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const requestedPage = parseInt(req.query.page as any, 10);
+        let itempPerPage = 3;
+        const categoriesFinder = await getcategoriesPaginated(requestedPage, itempPerPage);
+        res.status(200).json({ categoriesFinder });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+
+export { addCateg, getcategories };

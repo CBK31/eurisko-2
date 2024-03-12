@@ -1,5 +1,5 @@
 
-// /import catModel from './categoryModel';
+//import catModel from './categoryModel';
 
 const errorMessages = require('./categoryError');
 
@@ -28,4 +28,10 @@ const addCategory = async (name: string, desc: string) => {
     }
 };
 
-export { addCategory, findCategByName };
+const getcategoriesPaginated = async (requestedPage: number, itemsPerPage: number) => {
+
+    return await catModel.find({}).skip((requestedPage - 1) * itemsPerPage).limit(itemsPerPage);
+
+}
+
+export { addCategory, findCategByName, getcategoriesPaginated };

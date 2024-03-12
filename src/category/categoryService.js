@@ -1,5 +1,5 @@
 "use strict";
-// /import catModel from './categoryModel';
+//import catModel from './categoryModel';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findCategByName = exports.addCategory = void 0;
+exports.getcategoriesPaginated = exports.findCategByName = exports.addCategory = void 0;
 var errorMessages = require('./categoryError');
 var catModel = require('./categoryModel');
 var findCategByName = function (categName) { return __awaiter(void 0, void 0, void 0, function () {
@@ -75,3 +75,12 @@ var addCategory = function (name, desc) { return __awaiter(void 0, void 0, void 
     });
 }); };
 exports.addCategory = addCategory;
+var getcategoriesPaginated = function (requestedPage, itemsPerPage) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, catModel.find({}).skip((requestedPage - 1) * itemsPerPage).limit(itemsPerPage)];
+            case 1: return [2 /*return*/, _a.sent()];
+        }
+    });
+}); };
+exports.getcategoriesPaginated = getcategoriesPaginated;
