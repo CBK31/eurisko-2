@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOneCategoryById = exports.getcategoriesPaginated = exports.findCategByName = exports.addCategory = void 0;
+exports.deleteCategoryById = exports.updateCategory = exports.getOneCategoryById = exports.getcategoriesPaginated = exports.findCategByName = exports.addCategory = void 0;
 var errorMessages = require('./categoryError');
 var catModel = require('./categoryModel');
 var findCategByName = function (categName) { return __awaiter(void 0, void 0, void 0, function () {
@@ -96,3 +96,27 @@ var getOneCategoryById = function (categoryId) { return __awaiter(void 0, void 0
     });
 }); };
 exports.getOneCategoryById = getOneCategoryById;
+var updateCategory = function (categoryId, categName, categDesc) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, catModel.findByIdAndUpdate(categoryId, {
+                    name: categName,
+                    description: categDesc,
+                })];
+            case 1: return [2 /*return*/, _a.sent()];
+        }
+    });
+}); };
+exports.updateCategory = updateCategory;
+var deleteCategoryById = function (categoryId) { return __awaiter(void 0, void 0, void 0, function () {
+    var result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, catModel.deleteOne({ _id: categoryId })];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, result.deletedCount > 0];
+        }
+    });
+}); };
+exports.deleteCategoryById = deleteCategoryById;

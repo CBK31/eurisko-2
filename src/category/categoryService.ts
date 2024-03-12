@@ -39,4 +39,19 @@ const getOneCategoryById = async (categoryId) => {
     return categFinder;
 };
 
-export { addCategory, findCategByName, getcategoriesPaginated, getOneCategoryById };
+const updateCategory = async (categoryId: string, categName: string, categDesc: string) => {
+
+    return await catModel.findByIdAndUpdate(categoryId, {
+        name: categName,
+        description: categDesc,
+    });
+
+}
+
+const deleteCategoryById = async (categoryId) => {
+    const result = await catModel.deleteOne({ _id: categoryId });
+
+    return result.deletedCount > 0;
+}
+
+export { addCategory, findCategByName, getcategoriesPaginated, getOneCategoryById, updateCategory, deleteCategoryById };

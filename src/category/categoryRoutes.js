@@ -5,10 +5,9 @@ const { userIsAdmin } = require('../validations/isAdmin');
 const categoryController = require('./categoryController');
 
 
-myRoutes.use('/add', verifyToken, userIsAdmin, categoryController.addCateg);
 myRoutes.use('/getcategories', verifyToken, userIsAdmin, categoryController.getcategories);
 myRoutes.use('/getcategory', verifyToken, userIsAdmin, categoryController.getOnecategory);
-
-
-
+myRoutes.use('/add', verifyToken, userIsAdmin, categoryController.addCateg);
+myRoutes.use('/update', verifyToken, userIsAdmin, categoryController.updateCateg);
+myRoutes.use('/delete', verifyToken, userIsAdmin, categoryController.deleteCateg);
 module.exports = myRoutes;

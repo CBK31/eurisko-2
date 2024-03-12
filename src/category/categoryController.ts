@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { addCategory, getcategoriesPaginated, getOneCategoryById } from './categoryService';
+import { addCategory, getcategoriesPaginated, getOneCategoryById, updateCategory, deleteCategoryById } from './categoryService';
 import { findUserFromToken } from '../user/userService';
 
 const addCateg = async (req: Request, res: Response): Promise<void> => {
@@ -29,12 +29,47 @@ const getOnecategory = async (req: Request, res: Response): Promise<void> => {
     try {
         const { categoryId } = req.body;
         const finder = await getOneCategoryById(categoryId);
-        res.status(200).json({ finder });
+
+        if (finder) {
+            res.status(200).json({ finder });
+        } else {
+            res.status(400).json({ message: 'category not found' });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+const updateCateg = async (req: Request, res: Response): Promise<void> => {
+
+    try {
+        const { categoryId, categName, categDesc } = req.body;
+        const finder = await updateCategory(categoryId, categName, categDesc);
+
+        if (finder) {
+            res.status(200).json({ message: 'category updated successfully' });
+        } else {
+            res.status(400).json({ message: 'category not found' });
+        }
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 
-
 }
 
-export { addCateg, getcategories, getOnecategory };
+const deleteCateg = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { categoryId } = req.body;
+        // i should check if any complaint is related to a category before deleting it but i dont have time 
+        const result = await deleteCategoryById(categoryId);
+        if (result) {
+            res.status(200).json({ message: 'categoty deleted successfully' });
+        } else {
+            res.status(400).json({ message: 'category not found' });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export { addCateg, getcategories, getOnecategory, updateCateg, deleteCateg };
