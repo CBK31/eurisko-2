@@ -1,5 +1,4 @@
 "use strict";
-// /import catModel from './categoryModel';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,41 +36,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findCategByName = exports.addCategory = void 0;
-var errorMessages = require('./categoryError');
-var catModel = require('./categoryModel');
-var findCategByName = function (categName) { return __awaiter(void 0, void 0, void 0, function () {
-    var categFinder;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, catModel.findOne({ name: categName })];
+exports.submit = void 0;
+require("express-session");
+var jwt = require('jsonwebtoken');
+var complaintError = require('./complaintError');
+var complaintService_1 = require("./complaintService");
+var submit = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, title, body, categories, userFinder, error_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 3, , 4]);
+                _a = req.body, title = _a.title, body = _a.body, categories = _a.categories;
+                return [4 /*yield*/, (0, complaintService_1.findUserFromToken)(req)];
             case 1:
-                categFinder = _a.sent();
-                return [2 /*return*/, categFinder];
-        }
-    });
-}); };
-exports.findCategByName = findCategByName;
-var addCategory = function (name, desc) { return __awaiter(void 0, void 0, void 0, function () {
-    var categFinder, error;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, findCategByName(name)];
-            case 1:
-                categFinder = _a.sent();
-                if (!categFinder) return [3 /*break*/, 2];
-                error = new Error(errorMessages.categoryExist.message);
-                error.statusCode = errorMessages.categoryExist.statusCode;
-                throw error;
-            case 2: return [4 /*yield*/, new catModel({
-                    name: name,
-                    description: desc
-                }).save()];
+                userFinder = _b.sent();
+                return [4 /*yield*/, (0, complaintService_1.createComplaint)(userFinder._id, title, body, categories)];
+            case 2:
+                _b.sent();
+                res.status(200).json({ message: 'complaint added successfully' });
+                return [3 /*break*/, 4];
             case 3:
-                _a.sent();
-                _a.label = 4;
+                error_1 = _b.sent();
+                res.status(400).json({ message: error_1.message });
+                return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
     });
 }); };
-exports.addCategory = addCategory;
+exports.submit = submit;

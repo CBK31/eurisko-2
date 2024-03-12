@@ -1,0 +1,58 @@
+import { Request, Response } from 'express';
+const jwt = require('jsonwebtoken');
+const complaintModel = require('./complaintModel');
+const complaintError = require('./complaintError');
+import { findCategByName } from '../category/categoryService';
+import { findUserByEmail } from '../user/userService';
+
+const complaintFinderBytitle = async (cTitle) => {
+    return await complaintModel.findOne({ title: cTitle });
+}
+
+const findUserFromToken = async (req: Request) => {
+
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, 'a_secret_key');
+    const userEmail = decoded.email;
+
+    return await findUserByEmail(userEmail);
+
+}
+
+const categoryChecker = async (categories: Array<string>) => {
+    for (let element of categories) {
+        if (!await findCategByName(element)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+const createComplaint = async (userId: string, title: string, body: string, categories: Array<string>) => {
+
+    if (!title || !body || !categories || categories.length === 0) {
+        const error: any = new Error(complaintError.invalidComplaint.message);
+        error.statusCode = complaintError.invalidComplaint.statusCode;
+        throw error;
+    }
+
+    const categChecker = await categoryChecker(categories);
+
+    if (categChecker) {
+        await new complaintModel({
+            userId: userId,
+            title: title,
+            body: body,
+            categories: categories,
+            creationDate: new Date()
+        }).save();
+
+    } else {
+        const error: any = new Error(complaintError.categNotFound.message);
+        error.statusCode = complaintError.categNotFound.statusCode;
+        throw error;
+    }
+}
+
+export { createComplaint, findUserFromToken };

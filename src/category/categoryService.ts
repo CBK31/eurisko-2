@@ -6,9 +6,8 @@ const errorMessages = require('./categoryError');
 const catModel = require('./categoryModel');
 
 const findCategByName = async (categName: string) => {
-    const finder = await catModel.findOne({ name: categName });
-    return finder;
-
+    const categFinder = await catModel.findOne({ name: categName });
+    return categFinder;
 };
 
 const addCategory = async (name: string, desc: string) => {
@@ -29,4 +28,4 @@ const addCategory = async (name: string, desc: string) => {
     }
 };
 
-export { addCategory };
+export { addCategory, findCategByName };

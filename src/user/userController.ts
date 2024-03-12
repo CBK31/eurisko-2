@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { findUserByEmail, createUser, logInService, updatePassword } from './userService';
 import "express-session";
-//import { saveOTP } from "../otp/otpServices";
 import { sendOTP, OTPsaver } from '../otp/otpServices';
 const jwt = require('jsonwebtoken');
 const userError = require('./userError');

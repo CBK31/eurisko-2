@@ -8,10 +8,10 @@ const complaintSchema = new schema({
         ref: 'User',
     },
     title: String,
-    description: String,
-    categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
+    body: String,
+    categories: [{ type: String }],
     status: { type: String, enum: ['PENDING', 'IN PROGRESS', 'RESOLVED', 'REJECTED'], default: 'PENDING' },
-    creationDate: { type: Date, default: Date.now }
+    creationDate: Date
 })
 
 module.exports = mongoose.model('Complaint', complaintSchema);

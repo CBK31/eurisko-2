@@ -39,7 +39,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.resetpassword = exports.forgetpassword = exports.login = exports.signUp = void 0;
 var userService_1 = require("./userService");
 require("express-session");
-//import { saveOTP } from "../otp/otpServices";
 var otpServices_1 = require("../otp/otpServices");
 var jwt = require('jsonwebtoken');
 var userError = require('./userError');

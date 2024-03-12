@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(session({ secret: 'my secret', resave: false, saveUninitialized: false }));
 
 app.use('/api/category', categoryRoutes);
-// app.use('/api/complaint', complaintRoutes);
+app.use('/api/complaint', complaintRoutes);
 app.use('/api/otp', otpRoutes);
 app.use('/api/user', userRoutes);
 
