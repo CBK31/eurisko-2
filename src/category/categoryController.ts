@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { addCategory, getcategoriesPaginated } from './categoryService';
+import { addCategory, getcategoriesPaginated, getOneCategoryById } from './categoryService';
 import { findUserFromToken } from '../user/userService';
 
 const addCateg = async (req: Request, res: Response): Promise<void> => {
@@ -25,5 +25,16 @@ const getcategories = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
+const getOnecategory = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { categoryId } = req.body;
+        const finder = await getOneCategoryById(categoryId);
+        res.status(200).json({ finder });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 
-export { addCateg, getcategories };
+
+}
+
+export { addCateg, getcategories, getOnecategory };

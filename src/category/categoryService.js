@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getcategoriesPaginated = exports.findCategByName = exports.addCategory = void 0;
+exports.getOneCategoryById = exports.getcategoriesPaginated = exports.findCategByName = exports.addCategory = void 0;
 var errorMessages = require('./categoryError');
 var catModel = require('./categoryModel');
 var findCategByName = function (categName) { return __awaiter(void 0, void 0, void 0, function () {
@@ -84,3 +84,15 @@ var getcategoriesPaginated = function (requestedPage, itemsPerPage) { return __a
     });
 }); };
 exports.getcategoriesPaginated = getcategoriesPaginated;
+var getOneCategoryById = function (categoryId) { return __awaiter(void 0, void 0, void 0, function () {
+    var categFinder;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, catModel.findOne({ _id: categoryId })];
+            case 1:
+                categFinder = _a.sent();
+                return [2 /*return*/, categFinder];
+        }
+    });
+}); };
+exports.getOneCategoryById = getOneCategoryById;

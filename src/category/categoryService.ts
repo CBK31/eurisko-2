@@ -32,6 +32,11 @@ const getcategoriesPaginated = async (requestedPage: number, itemsPerPage: numbe
 
     return await catModel.find({}).skip((requestedPage - 1) * itemsPerPage).limit(itemsPerPage);
 
-}
+};
 
-export { addCategory, findCategByName, getcategoriesPaginated };
+const getOneCategoryById = async (categoryId) => {
+    const categFinder = await catModel.findOne({ _id: categoryId });
+    return categFinder;
+};
+
+export { addCategory, findCategByName, getcategoriesPaginated, getOneCategoryById };

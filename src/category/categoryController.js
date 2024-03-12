@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getcategories = exports.addCateg = void 0;
+exports.getOnecategory = exports.getcategories = exports.addCateg = void 0;
 var categoryService_1 = require("./categoryService");
 var addCateg = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, categoryName, categoryDescription, error_1;
@@ -81,3 +81,24 @@ var getcategories = function (req, res) { return __awaiter(void 0, void 0, void 
     });
 }); };
 exports.getcategories = getcategories;
+var getOnecategory = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var categoryId, finder, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                categoryId = req.body.categoryId;
+                return [4 /*yield*/, (0, categoryService_1.getOneCategoryById)(categoryId)];
+            case 1:
+                finder = _a.sent();
+                res.status(200).json({ finder: finder });
+                return [3 /*break*/, 3];
+            case 2:
+                error_3 = _a.sent();
+                res.status(400).json({ message: error_3.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getOnecategory = getOnecategory;
