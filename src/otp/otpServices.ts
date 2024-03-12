@@ -14,6 +14,14 @@ const updateIsUsedToTrue = async (otpId) => {
     );
 }
 
+const decrementLife = async (otpId, lifeNum) => {
+
+    await otpModel.findOneAndUpdate(
+        { _id: otpId },
+        { $set: { life: lifeNum } }
+    );
+
+}
 
 const saveOTP = async (myOTP: string, userId: string) => {
 
@@ -79,4 +87,4 @@ const OTPsaver = async (myOTP: string, email: string) => {
 
 
 
-export { sendOTP, OTPsaver, otpFinderByUserId, updateIsUsedToTrue };
+export { sendOTP, OTPsaver, otpFinderByUserId, updateIsUsedToTrue, decrementLife };

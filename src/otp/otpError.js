@@ -1,6 +1,6 @@
 module.exports = {
     otpAlreadyExist: {
-        message: 'OTP not save , old OTP is still valid',
+        message: 'OTP not saved , old OTP is still valid',
         statusCode: 400
     },
     otpNotFound: {
@@ -13,6 +13,10 @@ module.exports = {
     },
     exriredOrlifeEnded: {
         message: "life ended or expired OTP",
+        statusCode: 400
+    },
+    otpAlreadyused: {
+        message: "OTP already used",
         statusCode: 400
     }
 
