@@ -65,4 +65,18 @@ const getComplaintByUserIdAndCompId = async (userId: string, complaintid: string
 
 }
 
-export { createComplaint, findUserFromToken, getComplaintByUserId, getComplaintByUserIdAndCompId };
+const deleteComplaint = async (userId: string, complaintId: string) => {
+
+    const result = await complaintModel.deleteOne({
+        _id: complaintId,
+        userId: userId
+    });
+
+    return result.deletedCount > 0;
+
+}
+
+
+
+
+export { createComplaint, findUserFromToken, getComplaintByUserId, getComplaintByUserIdAndCompId, deleteComplaint };
