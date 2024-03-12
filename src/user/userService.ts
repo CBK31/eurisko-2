@@ -22,6 +22,12 @@ const findUserByEmail = async (email: String) => {
     return aUser;
 }
 
+const findUserById = async (userId: String) => {
+
+    const aUser = await userModel.findOne({ _id: userId });
+    return aUser;
+}
+
 const createUser = async (email: String, firstName: String, lastName: String, password: String, isVIP: Boolean, isAdmin: Boolean) => {
 
     let hashedpass = await bcrypt.hash(password, 12);
@@ -86,4 +92,4 @@ const findUserFromToken = async (req: Request) => {
 }
 
 
-export { createUser, logInService, findUserByEmail, updatePassword, findUserFromToken };
+export { findUserById, createUser, logInService, findUserByEmail, updatePassword, findUserFromToken };

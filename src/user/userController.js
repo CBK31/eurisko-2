@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetpassword = exports.forgetpassword = exports.login = exports.signUp = void 0;
+exports.changePassword = exports.resetpassword = exports.forgetpassword = exports.login = exports.signUp = void 0;
 var userService_1 = require("./userService");
 require("express-session");
 var otpServices_1 = require("../otp/otpServices");
@@ -135,7 +135,7 @@ var resetpassword = function (req, res) { return __awaiter(void 0, void 0, void 
                 return [4 /*yield*/, (0, userService_1.updatePassword)(userFinder._id, newPassword)];
             case 2:
                 _b.sent();
-                res.status(200).json({ message: 'password update successfully' });
+                res.status(200).json({ message: 'password updated successfully' });
                 return [3 /*break*/, 4];
             case 3:
                 res.status(userError.userNotFound.statusCode).json({ message: userError.userNotFound.message });
@@ -150,3 +150,35 @@ var resetpassword = function (req, res) { return __awaiter(void 0, void 0, void 
     });
 }); };
 exports.resetpassword = resetpassword;
+var changePassword = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var newPassword, userFinder, userF, error_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 6, , 7]);
+                newPassword = req.body.newPassword;
+                return [4 /*yield*/, (0, userService_1.findUserFromToken)(req)];
+            case 1:
+                userFinder = _a.sent();
+                return [4 /*yield*/, (0, userService_1.findUserById)(userFinder._id)];
+            case 2:
+                userF = _a.sent();
+                if (!userF) return [3 /*break*/, 4];
+                return [4 /*yield*/, (0, userService_1.updatePassword)(userF._id, newPassword)];
+            case 3:
+                _a.sent();
+                res.status(200).json({ message: 'password updated successfully' });
+                return [3 /*break*/, 5];
+            case 4:
+                res.status(userError.userNotFound.statusCode).json({ message: userError.userNotFound.message });
+                _a.label = 5;
+            case 5: return [3 /*break*/, 7];
+            case 6:
+                error_5 = _a.sent();
+                res.status(400).json({ message: error_5.message });
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
+        }
+    });
+}); };
+exports.changePassword = changePassword;

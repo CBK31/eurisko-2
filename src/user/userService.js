@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findUserFromToken = exports.updatePassword = exports.findUserByEmail = exports.logInService = exports.createUser = void 0;
+exports.findUserFromToken = exports.updatePassword = exports.findUserByEmail = exports.logInService = exports.createUser = exports.findUserById = void 0;
 var errorMessages = require('./userError');
 var bcrypt = require('bcryptjs');
 var userModel = require('./userModel');
@@ -68,6 +68,18 @@ var findUserByEmail = function (email) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 exports.findUserByEmail = findUserByEmail;
+var findUserById = function (userId) { return __awaiter(void 0, void 0, void 0, function () {
+    var aUser;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, userModel.findOne({ _id: userId })];
+            case 1:
+                aUser = _a.sent();
+                return [2 /*return*/, aUser];
+        }
+    });
+}); };
+exports.findUserById = findUserById;
 var createUser = function (email, firstName, lastName, password, isVIP, isAdmin) { return __awaiter(void 0, void 0, void 0, function () {
     var hashedpass, userF, error;
     return __generator(this, function (_a) {

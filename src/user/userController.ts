@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { findUserByEmail, createUser, logInService, updatePassword } from './userService';
+import { findUserByEmail, createUser, logInService, updatePassword, findUserFromToken, findUserById } from './userService';
 import "express-session";
 import { sendOTP, OTPsaver } from '../otp/otpServices';
 const jwt = require('jsonwebtoken');
@@ -80,7 +80,7 @@ const resetpassword = async (req: Request, res: Response): Promise<void> => {
         const userFinder = await findUserByEmail(email)
         if (userFinder) {
             await updatePassword(userFinder._id, newPassword);
-            res.status(200).json({ message: 'password update successfully' });
+            res.status(200).json({ message: 'password updated successfully' });
         } else {
             res.status(userError.userNotFound.statusCode).json({ message: userError.userNotFound.message });
         }
@@ -92,5 +92,25 @@ const resetpassword = async (req: Request, res: Response): Promise<void> => {
 
 }
 
+const changePassword = async (req: Request, res: Response): Promise<void> => {
 
-export { signUp, login, forgetpassword, resetpassword };
+    try {
+        const { newPassword } = req.body;
+        const userFinder = await findUserFromToken(req);
+        const userF = await findUserById(userFinder._id);
+        if (userF) {
+            await updatePassword(userF._id, newPassword);
+            res.status(200).json({ message: 'password updated successfully' });
+        } else {
+            res.status(userError.userNotFound.statusCode).json({ message: userError.userNotFound.message });
+        }
+
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+
+
+}
+
+
+export { signUp, login, forgetpassword, resetpassword, changePassword };
