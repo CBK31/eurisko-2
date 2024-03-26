@@ -123,7 +123,7 @@ var OTPsaver = function (myOTP, email) { return __awaiter(void 0, void 0, void 0
             case 2:
                 otpFinder = _a.sent();
                 if (!otpFinder) return [3 /*break*/, 7];
-                if (!(otpFinder.expirationTime > currentTime)) return [3 /*break*/, 3];
+                if (!(otpFinder.expirationTime > currentTime && !otpFinder.isUsed && otpFinder.life > 0)) return [3 /*break*/, 3];
                 error = new Error(otpError.otpAlreadyExist.message);
                 error.statusCode = otpError.otpAlreadyExist.statusCode;
                 throw error;

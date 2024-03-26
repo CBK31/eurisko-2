@@ -46,18 +46,18 @@ var verifyOTP = function (req, res) { return __awaiter(void 0, void 0, void 0, f
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 12, , 13]);
+                _b.trys.push([0, 13, , 14]);
                 _a = req.body, email = _a.email, otp = _a.otp;
                 return [4 /*yield*/, (0, userService_1.findUserByEmail)(email)];
             case 1:
                 userFinder = _b.sent();
-                if (!userFinder) return [3 /*break*/, 10];
+                if (!userFinder) return [3 /*break*/, 11];
                 return [4 /*yield*/, (0, otpServices_1.otpFinderByUserId)(userFinder._id)];
             case 2:
                 otpFinder = _b.sent();
-                if (!otpFinder) return [3 /*break*/, 8];
+                if (!otpFinder) return [3 /*break*/, 9];
                 currentTime = new Date();
-                if (!(otpFinder.otpCode === otp && otpFinder.expirationTime > currentTime)) return [3 /*break*/, 6];
+                if (!(otpFinder.otpCode === otp && otpFinder.expirationTime > currentTime && otpFinder.life > 0)) return [3 /*break*/, 6];
                 if (!(otpFinder.isUsed == false)) return [3 /*break*/, 4];
                 return [4 /*yield*/, (0, otpServices_1.updateIsUsedToTrue)(otpFinder._id)];
             case 3:
@@ -67,24 +67,26 @@ var verifyOTP = function (req, res) { return __awaiter(void 0, void 0, void 0, f
             case 4:
                 res.status(otpError.otpAlreadyused.statusCode).json({ message: otpError.otpAlreadyused.message });
                 _b.label = 5;
-            case 5: return [3 /*break*/, 7];
-            case 6:
+            case 5: return [3 /*break*/, 8];
+            case 6: return [4 /*yield*/, (0, otpServices_1.decrementLife)(otpFinder._id, (otpFinder.life - 1))];
+            case 7:
+                _b.sent();
                 res.status(otpError.notMatched.statusCode).json({ message: otpError.notMatched.message });
-                _b.label = 7;
-            case 7: return [3 /*break*/, 9];
-            case 8:
+                _b.label = 8;
+            case 8: return [3 /*break*/, 10];
+            case 9:
                 res.status(otpError.otpNotFound.statusCode).json({ message: otpError.otpNotFound.message });
-                _b.label = 9;
-            case 9: return [3 /*break*/, 11];
-            case 10:
+                _b.label = 10;
+            case 10: return [3 /*break*/, 12];
+            case 11:
                 res.status(userError.userNotFound.statusCode).json({ message: userError.userNotFound.message });
-                _b.label = 11;
-            case 11: return [3 /*break*/, 13];
-            case 12:
+                _b.label = 12;
+            case 12: return [3 /*break*/, 14];
+            case 13:
                 error_1 = _b.sent();
                 res.status(400).json({ message: error_1.message });
-                return [3 /*break*/, 13];
-            case 13: return [2 /*return*/];
+                return [3 /*break*/, 14];
+            case 14: return [2 /*return*/];
         }
     });
 }); };

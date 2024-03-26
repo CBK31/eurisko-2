@@ -16,7 +16,7 @@ const verifyOTP = async (req: Request, res: Response): Promise<void> => {
 
             if (otpFinder) {
                 const currentTime = new Date();
-                if (otpFinder.otpCode === otp && otpFinder.expirationTime > currentTime) {
+                if (otpFinder.otpCode === otp && otpFinder.expirationTime > currentTime && otpFinder.life > 0) {
                     if (otpFinder.isUsed == false) {
                         await updateIsUsedToTrue(otpFinder._id);
                         res.status(200).json({ message: 'OTP match' });
@@ -24,6 +24,7 @@ const verifyOTP = async (req: Request, res: Response): Promise<void> => {
                         res.status(otpError.otpAlreadyused.statusCode).json({ message: otpError.otpAlreadyused.message });
                     }
                 } else {
+                    await decrementLife(otpFinder._id, (otpFinder.life - 1));
                     res.status(otpError.notMatched.statusCode).json({ message: otpError.notMatched.message });
                 }
             } else {

@@ -14,7 +14,7 @@ const updateIsUsedToTrue = async (otpId) => {
     );
 }
 
-const decrementLife = async (otpId, lifeNum) => {
+const decrementLife = async (otpId: string, lifeNum: number) => {
 
     await otpModel.findOneAndUpdate(
         { _id: otpId },
@@ -61,7 +61,7 @@ const OTPsaver = async (myOTP: string, email: string) => {
         const otpFinder = await otpFinderByUserId(userFinder._id);
 
         if (otpFinder) {
-            if (otpFinder.expirationTime > currentTime) {
+            if (otpFinder.expirationTime > currentTime && !otpFinder.isUsed && otpFinder.life > 0) {
 
                 const error: any = new Error(otpError.otpAlreadyExist.message);
                 error.statusCode = otpError.otpAlreadyExist.statusCode;

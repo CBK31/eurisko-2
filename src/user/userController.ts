@@ -53,8 +53,8 @@ const forgetpassword = async (req: Request, res: Response): Promise<void> => {
     try {
 
         const { email } = req.body;
-
-        if (await findUserByEmail(email)) {
+        const cc = await findUserByEmail(email)
+        if (cc) {
             const myOTP: string = Math.floor(100000 + Math.random() * 900000).toString();
 
             await OTPsaver(myOTP, email);
